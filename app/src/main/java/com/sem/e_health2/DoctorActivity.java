@@ -1,6 +1,12 @@
 package com.sem.e_health2;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -17,6 +23,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,11 +42,11 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor);
+        setContentView(R.layout.activity_doctor1);
+        changeStatusBarToWhite(this);
         recyclerview = findViewById(R.id.RC);
         enableSwipeToDeleteAndUndo();
         plus = findViewById(R.id.add);
-        FloatingActionButton signOut = findViewById(R.id.signOut);
         Adapter = new ContactAdapter(this,listData) ;
        Adapter.setClickListener(this);
         mAuth = FirebaseAuth.getInstance();
@@ -52,15 +59,7 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
         recyclerview.setAdapter(Adapter);
         recyclerview.setHasFixedSize(true);
         myRef.addValueEventListener(vel);
-        signOut.setOnClickListener(v ->{
 
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(DoctorActivity.this,MainActivity.class)
-            );
-
-
-
-        });
         plus.setOnClickListener(v ->{
 
             Intent intent = new Intent(DoctorActivity.this,Addclient.class);
@@ -113,16 +112,6 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
         itemTouchhelper.attachToRecyclerView(recyclerview);
     }
 
-    @Override
-    public void onItemClickListener(View view, int position) {
-        Intent intent = new Intent(DoctorActivity.this,Addtest.class);
-        Ref.setValue(listData.get(position).getName()+" "+listData.get(position).getLastName());
-                        intent.putExtra("name",listData.get(position).getName());
-                        intent.putExtra("lastname",listData.get(position).getLastName());
-                        intent.putExtra("docid",Sub());
-                        startActivity(intent);
-
-    }
     public String Sub(){
 
         String filename = (mAuth.getCurrentUser().getEmail());
@@ -139,5 +128,46 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
 
 
 
+    public static void changeStatusBarToWhite(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //  activity.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN| View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            activity.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            // edited here
+            activity.getWindow().setStatusBarColor(Color.rgb(255,255,255));
 
+        }
+    }
+
+    public void onLoggedOut(View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(DoctorActivity.this,MainActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onHistoryItemClickListener(View view, int position) {
+        Intent intent = new Intent(DoctorActivity.this,Addtest.class);
+        Ref.setValue(listData.get(position).getName()+" "+listData.get(position).getLastName());
+        intent.putExtra("name",listData.get(position).getName());
+        intent.putExtra("lastname",listData.get(position).getLastName());
+        intent.putExtra("docid",Sub());
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onCallItemClickListener(View view, int position) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + listData.get(position).getPhone()));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
+    }
 }

@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import static com.sem.e_health2.DoctorActivity.changeStatusBarToWhite;
+
 public class Addtest extends AppCompatActivity {
     List<Test> testList = new ArrayList<>();
     RecAdapter adapter ;
@@ -42,7 +44,8 @@ public class Addtest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addtest);
+        setContentView(R.layout.activity_patient_tests);
+        changeStatusBarToWhite(this);
         recyclerview = findViewById(R.id.RC1);
         enableSwipeToDeleteAndUndo();
 
@@ -50,6 +53,9 @@ public class Addtest extends AppCompatActivity {
        ((SimpleItemAnimator) recyclerview.getItemAnimator()).setSupportsChangeAnimations(false);
 
 
+       findViewById(R.id.img_back).setOnClickListener((v)->{
+           finish();
+       });
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         recyclerview.setAdapter(adapter);
         recyclerview.setHasFixedSize(true);
@@ -118,11 +124,7 @@ public class Addtest extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String formattedDate = df.format(c);
         finalDate = formattedDate +" "+dateformatted ;
-        FloatingActionButton back = findViewById(R.id.back);
-        back.setOnClickListener(v ->{
 
-            startActivity(new Intent(Addtest.this,DoctorActivity.class));
-        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v ->{

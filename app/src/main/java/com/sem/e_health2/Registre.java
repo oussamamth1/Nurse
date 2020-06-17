@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.sem.e_health2.DoctorActivity.changeStatusBarToWhite;
+
 public class Registre extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
@@ -37,6 +39,7 @@ public class Registre extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registre);
+        changeStatusBarToWhite(this);
         login = findViewById(R.id.tc_login);
         mAuth = FirebaseAuth.getInstance();
         BtRegistre = findViewById(R.id.imageView3);

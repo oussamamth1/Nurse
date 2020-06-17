@@ -18,6 +18,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import static com.sem.e_health2.DoctorActivity.changeStatusBarToWhite;
+
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     TextView registre ;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        changeStatusBarToWhite(this);
         mAuth = FirebaseAuth.getInstance();
         BtLogin = findViewById(R.id.imageView33);
         email = findViewById(R.id.edt_email);

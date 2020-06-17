@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +30,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MiHolder
     public MiHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_item,parent,false);
+                .inflate(R.layout.row_item2,parent,false);
 
                 return new MiHolder(view) ;
     }
@@ -67,15 +68,19 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MiHolder
         TextView NomPrenom ;
         TextView phone ;
         TextView age ;
+        ImageView btnHistory, imgCall;
+
 
 
         public MiHolder(@NonNull View itemView) {
             super(itemView);
             NomPrenom = itemView.findViewById(R.id.nomp);
             phone= itemView.findViewById(R.id.tele);
-            age= itemView.findViewById(R.id.age);
-            itemView.setOnClickListener(this);
-
+            age= itemView.findViewById(R.id.agee);
+            btnHistory = itemView.findViewById(R.id.btn_history);
+            imgCall = itemView.findViewById(R.id.img_call);
+            btnHistory.setOnClickListener(this);
+            imgCall.setOnClickListener(this);
 
 
         }
@@ -84,7 +89,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MiHolder
         public void onClick(View view) {
             if (itemClickListener != null)
             {
-                itemClickListener.onItemClickListener(view,getAdapterPosition());
+                if (view.getId() == R.id.btn_history)
+                    itemClickListener.onHistoryItemClickListener(view,getAdapterPosition());
+                if (view.getId() == R.id.img_call)
+                    itemClickListener.onCallItemClickListener(view, getAdapterPosition());
             }
 
         }
@@ -95,8 +103,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MiHolder
         this.itemClickListener=itemClickListener;
     }
     public  interface ItemClickListener{
-        void onItemClickListener(View view, int position);
-    }
+        void onHistoryItemClickListener(View view, int position);
+        void onCallItemClickListener(View view, int position);    }
 }
 
 
