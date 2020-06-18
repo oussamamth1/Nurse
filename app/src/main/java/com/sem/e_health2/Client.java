@@ -6,6 +6,7 @@ public class Client {
     private String phone;
     private String age;
     private String imageUri;
+    private String namaLastName;
 
     public Client(String name, String lastName, String phone, String age) {
         this.name = name;
@@ -18,6 +19,18 @@ public class Client {
         this.lastName = lastName;
         this.phone = phone;
         this.age = age;
+        this.imageUri = imageUri;
+    }
+    public String getnamaLastName() {
+        namaLastName =  lastName + " " + name ;
+        return namaLastName;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
     }
 

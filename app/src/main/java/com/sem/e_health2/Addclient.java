@@ -2,9 +2,11 @@ package com.sem.e_health2;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,10 +16,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,10 +45,15 @@ public class Addclient extends AppCompatActivity {
     EditText tage;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseAuth mAuth;
+    DatabaseReference clienRef ;
+    private StorageReference mStorageRef ;
 
     private static final int CAMERA_REQUEST = 1888;
     private CircleImageView imgProfile;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+
+    Bitmap photo ;
+    Uri imagePath ;
 
 
 
@@ -51,10 +66,11 @@ public class Addclient extends AppCompatActivity {
         changeStatusBarToWhite(this);
         Intent intent = getIntent();
         String docID = intent.getStringExtra("docid");
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
         DatabaseReference Ref = database.getReference("E-Health/Doctors/"+docID);
-        final DatabaseReference clienRef = Ref.child("Clients");
+        clienRef = Ref.child("Clients");
         tnom = findViewById(R.id.name);
         tprenom = findViewById(R.id.lastname);
         ttelephone = findViewById(R.id.phone);
@@ -74,15 +90,18 @@ public class Addclient extends AppCompatActivity {
 
         });*/
         findViewById(R.id.addc).setOnClickListener((v) ->{
-            Client et = new Client();
+         Client et = new Client();
+
             et.setName(tnom.getText().toString());
             et.setLastName(tprenom.getText().toString());
             et.setPhone(ttelephone.getText().toString());
             et.setAge(tage.getText().toString());
-            clienRef.child(et.getName()+" "+et.getLastName()).setValue(et);
+            uploadImage(et) ;
+
             startActivity(new Intent(Addclient.this,DoctorActivity.class));
             finish();
         });
+
 
         findViewById(R.id.img_back).setOnClickListener((v) ->{
             finish();
@@ -108,6 +127,7 @@ public class Addclient extends AppCompatActivity {
 
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
@@ -132,8 +152,32 @@ public class Addclient extends AppCompatActivity {
     {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK)
         {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
+             photo = (Bitmap) data.getExtras().get("data");
             imgProfile.setImageBitmap(photo);
+
+
         }
     }
+    private void uploadImage( Client client) {
+        String Photoname = UUID.randomUUID().toString();
+        final StorageReference riversRef = mStorageRef.child("images/" + Photoname);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG,20,baos);
+        byte[] bitmapData = baos.toByteArray();
+        UploadTask uploadTask = riversRef.putBytes(bitmapData);
+        uploadTask
+                .addOnSuccessListener(taskSnapshot ->
+                        riversRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    Log.d("urlPhotoTest",uri.toString());
+                    client.setImageUri(uri.toString());
+                    clienRef.child(client.getName()+" "+client.getLastName()).setValue(client);
+
+
+                    }));
+
+
+
+    }
+
+
 }

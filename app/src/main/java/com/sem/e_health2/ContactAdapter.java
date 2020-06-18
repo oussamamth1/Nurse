@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -43,9 +45,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MiHolder
         String ch =client.getLastName() + " " +client.getName() ;
         holder.NomPrenom.setText(ch);
         holder.age.setText(client.getAge());
+        Picasso.get()
+                .load(client.getImageUri())
+                .into(holder.profilePhoto);
 
 
 
+    }
+
+    public void filterList(ArrayList<Client> filterdNames) {
+        this.MyList = filterdNames;
+        notifyDataSetChanged();
     }
     public void removeItem(int position, DatabaseReference testRef) {
         MyList.remove(position +1 );
@@ -68,7 +78,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MiHolder
         TextView NomPrenom ;
         TextView phone ;
         TextView age ;
-        ImageView btnHistory, imgCall;
+        ImageView btnHistory, imgCall , profilePhoto;
 
 
 
@@ -81,6 +91,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MiHolder
             imgCall = itemView.findViewById(R.id.img_call);
             btnHistory.setOnClickListener(this);
             imgCall.setOnClickListener(this);
+            profilePhoto = itemView.findViewById(R.id.img_profile);
 
 
         }

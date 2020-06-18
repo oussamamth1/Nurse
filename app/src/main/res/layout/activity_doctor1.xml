@@ -27,17 +27,18 @@
             android:layout_margin="10dp"
             android:textSize="30sp"
             android:textStyle="bold"/>
+
         <EditText
+            android:id="@+id/edt_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_search"
-            android:hint=""
             android:layout_below="@id/txt_doctor_name"
             android:layout_centerHorizontal="true"
-            android:id="@+id/edt_search"
+            android:background="@drawable/bg_search"
             android:drawableEnd="@drawable/ic_search"
+            android:hint="@string/search_for_patient"
             android:paddingStart="20dp"
-            android:paddingEnd="20dp"/>
+            android:paddingEnd="20dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RC"

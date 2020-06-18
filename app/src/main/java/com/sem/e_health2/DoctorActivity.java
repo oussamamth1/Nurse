@@ -8,7 +8,10 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +39,7 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
     FloatingActionButton plus ;
     FirebaseAuth mAuth;
     ContactAdapter Adapter ;
+    EditText searchBar ;
     RecyclerView recyclerview ;
     List<Client> listData= new ArrayList<>();
 
@@ -47,8 +51,9 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
         recyclerview = findViewById(R.id.RC);
         enableSwipeToDeleteAndUndo();
         plus = findViewById(R.id.add);
+        searchBar = findViewById(R.id.edt_search);
         Adapter = new ContactAdapter(this,listData) ;
-       Adapter.setClickListener(this);
+        Adapter.setClickListener(this);
         mAuth = FirebaseAuth.getInstance();
         DatabaseReference myRef = database.getReference("E-Health/Doctors/"+Sub()+"/Clients");
         delRf = database.getReference("E-Health/Doctors/"+Sub());
@@ -59,6 +64,23 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
         recyclerview.setAdapter(Adapter);
         recyclerview.setHasFixedSize(true);
         myRef.addValueEventListener(vel);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+
+            }
+        });
 
         plus.setOnClickListener(v ->{
 
@@ -73,6 +95,22 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
 
 
 
+    }
+    private void filter(String text) {
+        //new array list that will hold the filtered data
+        ArrayList<Client> filterdNames = new ArrayList<>();
+
+        //looping through existing elements
+        for (Client s : listData) {
+            //if the existing elements contains the search input
+            if (s.getnamaLastName().toLowerCase().contains(text.toLowerCase())) {
+                //adding the element to filtered list
+                filterdNames.add(s);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        Adapter.filterList(filterdNames);
     }
             ValueEventListener vel = new ValueEventListener() {
                 @Override

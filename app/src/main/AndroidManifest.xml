@@ -19,6 +19,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Addclient" />
         <activity
+            android:windowSoftInputMode="stateHidden|adjustResize"
+
             android:name=".DoctorActivity"
             android:label="@string/title_activity_doctor"
             android:theme="@style/AppTheme.NoActionBar" />
