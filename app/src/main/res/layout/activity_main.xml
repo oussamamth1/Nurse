@@ -1,81 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_log"
-    android:scaleType="fitXY"
     android:orientation="vertical"
     android:layout_gravity="center"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="229dp"
-        android:layout_height="138dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="60dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl1"
+        android:layout_marginTop="50dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_app"
+            android:id="@+id/ic_app"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ic_app"
+            android:text="Welcome Back!"
+            android:layout_marginTop="10dp"
+            android:textSize="24sp"
+            android:id="@+id/txt_welcome"
+            android:fontFamily="@font/qualy_bold"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_welcome"
+            android:text="Log in to your existant account."
+            android:textSize="14sp"
+            android:fontFamily="@font/corbert_wide"
+            android:gravity="center"/>
 
-        app:srcCompat="@drawable/logo_sign" />
+    </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="295dp"
-        android:layout_gravity="center"
-        android:background="@drawable/back_form_login"
-        android:gravity="center"
-        android:orientation="vertical">
-
+        android:layout_width="match_parent"
+        android:layout_below="@id/rl1"
+        android:layout_height="wrap_content">
         <EditText
             android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:drawableLeft="@drawable/ic_email"
+            android:drawableEnd="@drawable/ic_email"
+            android:background="@drawable/bg_edt_sign"
             android:ems="10"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
             android:layout_marginTop="80dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:inputType="textEmailAddress"
             android:hint="Email"
             android:singleLine="true"
-            android:backgroundTint="@color/colorPrimary"
             />
 
         <EditText
             android:id="@+id/edt_password"
             android:layout_marginTop="20dp"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/edt_email"
             android:hint="Password"
-
+            android:background="@drawable/bg_edt_sign"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:drawableLeft="@drawable/ic_password"
-            android:backgroundTint="@color/colorPrimary"
+            android:drawableEnd="@drawable/ic_lock1"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
             android:inputType="textPassword" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edt_password"
+            android:text="Forgot Password?"
+            android:id="@+id/txt_forgot_password"
+            android:textStyle="bold"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"/>
 
         <ImageView
             android:id="@+id/imageView33"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_forgot_password"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="-10dp"
+            android:layout_gravity="center"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/btn_login" />
+            android:backgroundTint="@android:color/transparent"
+            app:srcCompat="@drawable/btn_log_in" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView33"
+            android:text="Or connect using"
+            android:id="@+id/txt_or"
+            android:textStyle="italic"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:id="@+id/ll1"
+            android:layout_below="@id/txt_or">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/btn_facebook"
+                android:elevation="8dp"
+                android:background="@drawable/btn_facebook"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:id="@+id/btn_google"
+                android:elevation="8dp"
+                android:background="@drawable/btn_google"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll1"
+            android:layout_marginTop="25dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't have an account?" />
+            <TextView
+                android:id="@+id/tc_registre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign Up"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_blue_dark" />
+        </LinearLayout>
+
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tc_registre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="100dp"
-        android:text="Creat a new account ?"
-        android:textColor="@android:color/background_light" />
-</LinearLayout>
+
+
+
+    </RelativeLayout>
+</ScrollView>

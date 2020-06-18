@@ -38,7 +38,7 @@ public class Registre extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registre);
+        setContentView(R.layout.activity_register2);
         changeStatusBarToWhite(this);
         login = findViewById(R.id.tc_login);
         mAuth = FirebaseAuth.getInstance();
@@ -47,7 +47,9 @@ public class Registre extends AppCompatActivity {
         password = findViewById(R.id.edt_password2);
         user= findViewById(R.id.edt_username2);
 
-        login.setOnClickListener(ls);
+        login.setOnClickListener((v -> finish()));
+        findViewById(R.id.img_back_sign_up).setOnClickListener((v -> finish()));
+
         BtRegistre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,14 +64,7 @@ public class Registre extends AppCompatActivity {
 
     }
 
-    View.OnClickListener ls = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            startActivity(new Intent(Registre.this,MainActivity.class)
-                                );
 
-        }
-    };
     private void updateUI(FirebaseUser currentUser) {
 
 
