@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +41,7 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
     FirebaseAuth mAuth;
     ContactAdapter Adapter ;
     EditText searchBar ;
+    TextView docName;
     RecyclerView recyclerview ;
     List<Client> listData= new ArrayList<>();
 
@@ -55,6 +57,7 @@ public class DoctorActivity extends AppCompatActivity implements ContactAdapter.
         Adapter = new ContactAdapter(this,listData) ;
         Adapter.setClickListener(this);
         mAuth = FirebaseAuth.getInstance();
+        docName = findViewById(R.id.txt_doctor_name);
         DatabaseReference myRef = database.getReference("E-Health/Doctors/"+Sub()+"/Clients");
         delRf = database.getReference("E-Health/Doctors/"+Sub());
         Ref = database.getReference("E-Health/Client name");

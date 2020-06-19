@@ -26,7 +26,10 @@ public class Registre extends AppCompatActivity {
     EditText user ;
     EditText email ;
     EditText password ;
+    EditText confirmPassword;
     TextView login ;
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -45,22 +48,15 @@ public class Registre extends AppCompatActivity {
         BtRegistre = findViewById(R.id.imageView3);
         email = findViewById(R.id.edt_email2);
         password = findViewById(R.id.edt_password2);
+        confirmPassword =findViewById(R.id.edt_password_confirm);
         user= findViewById(R.id.edt_username2);
+
+
 
         login.setOnClickListener((v -> finish()));
         findViewById(R.id.img_back_sign_up).setOnClickListener((v -> finish()));
 
-        BtRegistre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SignUP();
-
-
-
-
-
-            }
-        });
+        BtRegistre.setOnClickListener(view -> SignUP());
 
     }
 
@@ -70,15 +66,32 @@ public class Registre extends AppCompatActivity {
 
         if(currentUser != null){
 
-            startActivity(new Intent(Registre.this,DoctorActivity.class));
+
+            Intent intent = new Intent(Registre.this,DoctorActivity.class);
+            intent.putExtra("user",user.getText().toString());
+            startActivity(intent);
         }
 
     }
     public void SignUP(){
-        mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+
+        String Spassword =  password.getText().toString() ;
+        String Sconfirmpassword = confirmPassword.getText().toString() ;
+
+        if ( !Sconfirmpassword.equals( Spassword)){
+
+            confirmPassword.setError("Passwords do not match !");
+
+
+        }
+        else if (user.getText().toString().length() == 0) {   user.setError("UserName is required!");}
+        else if (email.getText().toString().length() == 0){   email.setError("Email is required!");}
+        else if (password.getText().toString().length() == 0) {   password.setError("Password is required!");}
+        else {
+
+            mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                    .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "createUserWithEmail:success");
@@ -95,8 +108,9 @@ public class Registre extends AppCompatActivity {
                         }
 
                         // ...
-                    }
-                });
+                    });
+        }
+
 
 
 
