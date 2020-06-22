@@ -90,22 +90,30 @@ public class Addclient extends AppCompatActivity {
 
         });*/
         findViewById(R.id.addc).setOnClickListener((v) ->{
-         Client et = new Client();
+             if (tnom.getText().toString().length() == 0) {   tnom.setError("Name is required!");}
+            else if (tprenom.getText().toString().length() == 0){   tprenom.setError("Last Name  is required!");}
+            else if (tage.getText().toString().length() == 0) {   tage.setError("Age is required!");}
+             else if (ttelephone.getText().toString().length() == 0) {   ttelephone.setError("Phone number is required!");}
 
-            et.setName(tnom.getText().toString());
-            et.setLastName(tprenom.getText().toString());
-            et.setPhone(ttelephone.getText().toString());
-            et.setAge(tage.getText().toString());
-            uploadImage(et) ;
+             else {
 
-            startActivity(new Intent(Addclient.this,DoctorActivity.class));
-            finish();
+                    Client et = new Client();
+                    et.setName(tnom.getText().toString());
+                    et.setLastName(tprenom.getText().toString());
+                    et.setPhone(ttelephone.getText().toString());
+                    et.setAge(tage.getText().toString());
+                    uploadImage(et) ;
+                    startActivity(new Intent(Addclient.this,DoctorActivity.class));
+                    finish();
+                    }
         });
+
 
 
         findViewById(R.id.img_back).setOnClickListener((v) ->{
             finish();
         });
+
 
     }
 
