@@ -1,7 +1,9 @@
 package com.sem.e_health2;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +48,7 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> {
                     notifyItemChanged(position);
         });
     }
+
     public void removeItem(int position, DatabaseReference testRef) {
         list.remove(position +1);
         Test test = list.get((position));
@@ -53,6 +56,8 @@ public class RecAdapter extends RecyclerView.Adapter<RecAdapter.RecViewHolder> {
         testRef.child(t).removeValue();
         notifyItemRemoved(position);
     }
+
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,6 +44,7 @@ public class Addclient extends AppCompatActivity {
     EditText tprenom;
     EditText ttelephone;
     EditText tage;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseAuth mAuth;
     DatabaseReference clienRef ;
@@ -53,7 +55,7 @@ public class Addclient extends AppCompatActivity {
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
     Bitmap photo ;
-    Uri imagePath ;
+
 
 
 
@@ -76,21 +78,8 @@ public class Addclient extends AppCompatActivity {
         ttelephone = findViewById(R.id.phone);
         tage =findViewById(R.id.tele);
         imgProfile =findViewById(R.id.img_profile);
-
-       // FloatingActionButton fab = findViewById(R.id.addc);
-        /*fab.setOnClickListener(v ->{
-            Client et = new Client();
-            et.setName(tnom.getText().toString());
-            et.setLastName(tprenom.getText().toString());
-            et.setPhone(ttelephone.getText().toString());
-            et.setAge(tage.getText().toString());
-            clienRef.child(et.getName()+" "+et.getLastName()).setValue(et);
-            startActivity(new Intent(Addclient.this,DoctorActivity.class));
-            finish();
-
-        });*/
         findViewById(R.id.addc).setOnClickListener((v) ->{
-             if (tnom.getText().toString().length() == 0) {   tnom.setError("Name is required!");}
+            if (tnom.getText().toString().length() == 0) {   tnom.setError("Name is required!");}
             else if (tprenom.getText().toString().length() == 0){   tprenom.setError("Last Name  is required!");}
             else if (tage.getText().toString().length() == 0) {   tage.setError("Age is required!");}
              else if (ttelephone.getText().toString().length() == 0) {   ttelephone.setError("Phone number is required!");}

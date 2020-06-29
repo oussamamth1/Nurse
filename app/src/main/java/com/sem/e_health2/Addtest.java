@@ -1,5 +1,7 @@
 package com.sem.e_health2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -148,14 +150,50 @@ public class Addtest extends AppCompatActivity {
         testRef.addValueEventListener(vel);
     }
 
+
+
     private void enableSwipeToDeleteAndUndo() {
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
 
-                final int position = viewHolder.getAdapterPosition();
-                adapter.removeItem(position,testRef);
+
+                    AlertDialog myQuittingDialogBox = new AlertDialog.Builder(Addtest.this)
+                            // set message, title, and icon
+                            .setTitle("Delete")
+                            .setMessage("Do you want to Delete")
+                            .setIcon(R.drawable.delete)
+
+                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    final int position = viewHolder.getAdapterPosition();
+                                    adapter.removeItem(position,testRef);
+                                    dialog.dismiss();
+                                }
+
+                            })
+                            .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    dialog.dismiss();
+                                    finish();
+                                    startActivity(getIntent());
+
+
+                                }
+                            })
+                            .create();
+                myQuittingDialogBox.setCanceledOnTouchOutside(false);
+                myQuittingDialogBox.show();
+
+
+
+
+
+
+
 
             }
 
